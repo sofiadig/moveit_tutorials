@@ -34,6 +34,8 @@ target_link_libraries(
 install(
   TARGETS
     ${INTERACTIVITY_LIB_NAME}
+  EXPORT
+    ${INTERACTIVITY_LIB_NAME}_targets
   LIBRARY
   DESTINATION
     ${CATKIN_PACKAGE_LIB_DESTINATION}
@@ -44,5 +46,12 @@ install(
   DESTINATION
     ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
+
+install(EXPORT ${INTERACTIVITY_LIB_NAME}_targets
+        FILE ${INTERACTIVITY_LIB_NAME}Config.cmake
+        DESTINATION lib/cmake/${INTERACTIVITY_LIB_NAME})
+
+set_target_properties(${INTERACTIVITY_LIB_NAME} PROPERTIES EXPORT_NAME moveit_tutorials_interactivity_utils)
+target_include_directories(${INTERACTIVITY_LIB_NAME} PUBLIC include)
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
