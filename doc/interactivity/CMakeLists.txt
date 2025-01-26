@@ -52,6 +52,10 @@ install(EXPORT ${INTERACTIVITY_LIB_NAME}_targets
         DESTINATION lib/cmake/${INTERACTIVITY_LIB_NAME})
 
 set_target_properties(${INTERACTIVITY_LIB_NAME} PROPERTIES EXPORT_NAME moveit_tutorials_interactivity_utils)
-target_include_directories(${INTERACTIVITY_LIB_NAME} PUBLIC include)
+#target_include_directories(${INTERACTIVITY_LIB_NAME} PUBLIC include)
+target_include_directories(${INTERACTIVITY_LIB_NAME} PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
