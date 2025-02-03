@@ -95,6 +95,7 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
 
   // create an interactive marker to control the world geometry (the yellow cube)
   desired_world_object_pose_ = DEFAULT_WORLD_OBJECT_POSE_;
+  DEFAULT_CYLINDER_POSE_.translation() = Eigen::Vector3d(0.0, -0.5, 0.0);
   imarker_world_ = new IMarker(interactive_marker_server_, "world", desired_world_object_pose_, "panda_link0",
                                boost::bind(movedWorldMarkerCallback, this, boost::placeholders::_1), IMarker::POS);
 
@@ -288,23 +289,41 @@ void InteractiveRobot::setWorldObjectPose(const Eigen::Isometry3d& pose)
 /* publish world object position to rviz */
 void InteractiveRobot::publishWorldState()
 {
-  visualization_msgs::Marker marker;
-  marker.header.frame_id = "panda_link0";
-  marker.header.stamp = ros::Time::now();
-  marker.ns = "world_box";
-  marker.id = 0;
-  marker.type = visualization_msgs::Marker::CUBE;
-  marker.action = visualization_msgs::Marker::ADD;
-  marker.scale.x = WORLD_BOX_SIZE_;
-  marker.scale.y = WORLD_BOX_SIZE_;
-  marker.scale.z = WORLD_BOX_SIZE_;
-  marker.color.r = 1.0f;
-  marker.color.g = 1.0f;
-  marker.color.b = 0.0f;
-  marker.color.a = 0.4f;
-  marker.lifetime = ros::Duration();
-  marker.pose = tf2::toMsg(desired_world_object_pose_);
-  world_state_publisher_.publish(marker);
+  visualization_msgs::Marker marker1;
+  visualization_msgs::Marker marker2;
+  marker1.header.frame_id = "panda_link0";
+  marker1.header.stamp = ros::Time::now();
+  marker1.ns = "world_box";
+  marker1.id = 0;
+  marker1.type = visualization_msgs::Marker::CUBE;
+  marker1.action = visualization_msgs::Marker::ADD;
+  marker1.scale.x = WORLD_BOX_SIZE_;
+  marker1.scale.y = WORLD_BOX_SIZE_;
+  marker1.scale.z = WORLD_BOX_SIZE_;
+  marker1.color.r = 1.0f;
+  marker1.color.g = 1.0f;
+  marker1.color.b = 0.0f;
+  marker1.color.a = 0.4f;
+  marker1.lifetime = ros::Duration();
+  marker1.pose = tf2::toMsg(desired_world_object_pose_);
+
+  marker2.header.frame_id = "panda_link0";
+  marker2.header.stamp = ros::Time::now();
+  marker2.ns = "cylinder";
+  marker2.id = 1;
+  marker2.type = visualization_msgs::Marker::CYLINDER;
+  marker2.action = visualization_msgs::Marker::ADD;
+  marker2.scale.x = 0.06;
+  marker2.scale.y = 0.06;
+  marker2.scale.z = 0.4;
+  marker2.color.r = 0.0f;
+  marker2.color.g = 0.0f;
+  marker2.color.b = 1.0f;
+  marker2.color.a = 0.4f;
+  marker2.lifetime = ros::Duration();
+  marker2.pose = tf2::toMsg(DEFAULT_WORLD_OBJECT_POSE_);
+  world_state_publisher_.publish(marker1);
+  world_state_publisher_.publish(marker2);
 }
 
 /* get world object pose and size */

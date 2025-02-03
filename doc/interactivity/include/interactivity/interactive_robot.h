@@ -146,6 +146,7 @@ private:
   Eigen::Isometry3d desired_world_object_pose_;
   static const double WORLD_BOX_SIZE_;
   static const Eigen::Isometry3d DEFAULT_WORLD_OBJECT_POSE_;
+  Eigen::Isometry3d DEFAULT_CYLINDER_POSE_;
 
   /* user callback function */
   boost::function<void(InteractiveRobot& robot)> user_callback_;
